@@ -7,6 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+#importing local files
+from sheet_control import get_data
+
 #geeting todays date as string
 today = "{:%d.%m.%Y}".format(datetime.now())
 
@@ -15,7 +18,6 @@ scope = ['https://spreadsheets.google.com/feeds']
 creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 client = gspread.authorize(creds)
 
-# Find a workbook by name and open the first sheet
 sheet = client.open("clreplay").sheet1
 
 # Find a workbook by name and open the 2nd sheet
@@ -31,9 +33,6 @@ def load_mailbody(mb=mailbody):
 	return amb
 body_text = load_mailbody()
 
-# Extract all of the values
-data = sheet.get_all_records()
-
 #defining the cell to marking for job done
 cell_value = 1
 
@@ -46,16 +45,19 @@ def get_replay_links():
 	return (links)
 replay_links = get_replay_links()
 
-for row in data:
+for row in get_data():
 	email = row['Email']
 	password = row['Password']
 	remail = row['Recovery']
+	reporting_date = row['Reporting Date']
 	cell_value += 1
+	if reporting_date == today:
+		continue
 	#Selenium
 	#chrome_options = Options()
 	#chrome_options.add_argument('--dns-prefetch-disable')
-	#driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='G:\cl_reolay\chromedriver.exe')
-	driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
+	driver = webdriver.Chrome()
+	#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
 	driver.get("https://accounts.google.com/Login")
 	wait = WebDriverWait(driver, 10)
 	gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="identifierId"]')))
