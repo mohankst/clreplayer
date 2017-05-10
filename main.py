@@ -2,8 +2,6 @@ import gspread, random, pyperclip, time, pyautogui
 from datetime import datetime, date
 from oauth2client.service_account import ServiceAccountCredentials
 from selenium import webdriver
-from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -56,8 +54,8 @@ for row in data:
 	#Selenium
 	#chrome_options = Options()
 	#chrome_options.add_argument('--dns-prefetch-disable')
-	driver = webdriver.Chrome()
-	#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
+	#driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='G:\cl_reolay\chromedriver.exe')
+	driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
 	driver.get("https://accounts.google.com/Login")
 	wait = WebDriverWait(driver, 10)
 	gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="identifierId"]')))
