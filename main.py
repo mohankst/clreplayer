@@ -99,7 +99,7 @@ for row in get_data():
 	# 		driver.get(cllink)
 	# 		mailbody_imput = wait.until(EC.element_to_be_clickable((By.ID, 'knowledge-preregistered-email-response')))
 	# 		mailbody_imput.send_keys(random.choice(body_text))
-	for cllink in replay_links:
+	for _ in range(25):
 		time.sleep(5)
 		driver.get("{}".format(cllink))
 		wait = WebDriverWait(driver, 120)
@@ -107,7 +107,7 @@ for row in get_data():
 		mailbody_imput.click()
 		rand_body_text = random.choice(body_text)
 		#pyperclip.copy('{}'.format(rand_body_text))
-		pyperclip.copy(str(rand_body_text))
+		pyperclip.copy(str(rand_body_text)[2:-2])
 		mailbody_imput.send_keys(Keys.UP * 2)
 		mailbody_imput.send_keys(Keys.CONTROL + "v")
 		mail_send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":p0"]')))
