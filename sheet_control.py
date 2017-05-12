@@ -1,6 +1,9 @@
 import gspread, random, time
 from datetime import datetime, date
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime, date
+
+today = "{:%d.%m.%Y}".format(datetime.now())
 
 # use creds to create a client to interact with the Google Drive API
 scope = ['https://spreadsheets.google.com/feeds']
@@ -8,8 +11,9 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', s
 client = gspread.authorize(creds)
 
 # Find a workbook by name and open the first sheet
-emails_heet = client.open("clreplay").sheet1
+emails_sheet = client.open("clreplay").sheet1
 body_text_sheet = client.open("mailbody").sheet1
+replay_links_sheet = client.open("replay_links").sheet1
 
 
 mailbody = body_text_sheet.get_all_records()
@@ -18,7 +22,35 @@ body_text_sheet = client.open("mailbody").sheet1
 mailbody = body_text_sheet.get_all_records()
 
 def get_data():
-	data = emails_heet.get_all_records()
+	data = emails_sheet.get_all_records()
 	return data
 
 get_data()
+
+
+def update_report_cell(cell_value):
+	try:
+		emails_sheet.update_cell(cell_value, 4, today)
+	except:
+		emails_sheet = client.open("clreplay").sheet1
+	finally:
+		emails_sheet.update_cell(cell_value, 4, today)
+
+def err_report(cell_value, message):
+	try:
+		emails_sheet.update_cell(cell_value, 5, message)
+	except:
+		emails_sheet = client.open("clreplay").sheet1
+	finally:
+		emails_sheet.update_cell(cell_value, 5, message)
+
+
+def rand_re_link():
+	links = []
+	data = replay_links_sheet.get_all_records()
+	for row in data:
+		replay_link = row['links']
+		links.append(replay_link)
+	random.shuffle(links)
+	re_link = random.choice(links)
+	return re_link
