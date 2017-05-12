@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 #importing local files
-from sheet_control import get_data, re_link
+from sheet_control import get_data, rand_re_link
 from mail_login import login_gmail
 
 #geeting todays date as string
@@ -37,14 +37,14 @@ body_text = load_mailbody()
 cell_value = 1
 
 # Geeting list of links collected from cl
-def get_replay_links():
-	links = []
-	with open ('replay_links.txt') as f:
-		for line in f:
-			links.append(line)
-	random.shuffle(links)
-	return (links)
-replay_links = get_replay_links()
+# def get_replay_links():
+# 	links = []
+# 	with open ('replay_links.txt') as f:
+# 		for line in f:
+# 			links.append(line)
+# 	random.shuffle(links)
+# 	return (links)
+# replay_links = get_replay_links()
 
 for row in get_data():
 	email = row['Email']
@@ -104,7 +104,8 @@ for row in get_data():
 	# 		mailbody_imput.send_keys(random.choice(body_text))
 	for _ in range(25):
 		time.sleep(5)
-		driver.get("{}".format(re_link()))
+		replay_link = rand_re_link()
+		driver.get("{}".format(replay_link))
 		wait = WebDriverWait(driver, 120)
 		mailbody_imput = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":nn"]')))
 		mailbody_imput.click()
