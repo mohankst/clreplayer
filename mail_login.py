@@ -4,19 +4,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 #importing local files
-from sheet_control import update_report_cell
+from sheet_control import update_report_cell, rand_re_link
 
 
 
 
 def login_gmail(driver, email, password, remail, cell_value):
 	mail_problem = False
-	#Selenium
-	#chrome_options = Options()
-	#chrome_options.add_argument('--dns-prefetch-disable')
-	driver.get("https://accounts.google.com/Login")
+	replay_link = rand_re_link()
+	driver.get("{}".format(replay_link))	
+	# driver.get("https://mail.google.com")
 	wait = WebDriverWait(driver, 10)
-	gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="identifierId"]')))
+	try:
+		gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="identifierId"]')))
+	except:
+		gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="Email"]')))
 	gmail_user_id_field.click()
 	gmail_user_id_field.send_keys(email)
 	gmail_user_id_field.send_keys(Keys.RETURN)
