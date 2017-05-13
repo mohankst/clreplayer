@@ -18,7 +18,7 @@ def login_gmail(driver, email, password, remail, cell_value):
 	try:
 		gmail_signin_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,'body > nav > div > a.gmail-nav__nav-link.gmail-nav__nav-link__sign-in')))
 		gmail_signin_btn.click()
-	except
+	except:
 		pass
 	try:
 		gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="identifierId"]')))
