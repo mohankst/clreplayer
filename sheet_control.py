@@ -21,13 +21,25 @@ mailbody = body_text_sheet.get_all_records()
 body_text_sheet = client.open("mailbody").sheet1
 mailbody = body_text_sheet.get_all_records()
 
+#geeting all email informaitons 
 def get_data():
 	data = emails_sheet.get_all_records()
 	return data
 
-get_data()
+
+#geeting body text for emails
+def get_body_text():
+	amb = [] #defining an empty list for all mailbody
+	mailbody = body_text_sheet.get_all_records()
+	for row in mailbody:
+		bt = row['texts']
+		amb.append(bt)
+	random.shuffle(amb)
+	body_text = random.choice(amb)
+	return body_text
 
 
+# write current date to google sheet
 def update_report_cell(cell_value):
 	try:
 		emails_sheet.update_cell(cell_value, 4, today)
@@ -36,6 +48,7 @@ def update_report_cell(cell_value):
 	finally:
 		emails_sheet.update_cell(cell_value, 4, today)
 
+# write user defined error messages to google sheet 
 def err_report(cell_value, message):
 	try:
 		emails_sheet.update_cell(cell_value, 5, message)
@@ -44,7 +57,7 @@ def err_report(cell_value, message):
 	finally:
 		emails_sheet.update_cell(cell_value, 5, message)
 
-
+#geeting replay links randomly from google sheet
 def rand_re_link():
 	links = []
 	data = replay_links_sheet.get_all_records()
@@ -54,3 +67,4 @@ def rand_re_link():
 	random.shuffle(links)
 	re_link = random.choice(links)
 	return re_link
+
