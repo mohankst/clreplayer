@@ -16,6 +16,10 @@ today = "{:%d.%m.%Y}".format(datetime.now())
 #defining the cell to marking for job done
 cell_value = 1
 
+#defining webdriver instance
+driver = webdriver.Chrome()
+#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
+
 for row in get_data():
 	email = row['Email']
 	password = row['Password']
@@ -26,9 +30,6 @@ for row in get_data():
 	if reporting_date == today:
 		continue
 
-	#defining webdriver instance 
-	driver = webdriver.Chrome()
-	#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
 	login_gmail(driver, email, password, remail, cell_value)
 	if login_gmail == False:
 		driver.quit()
@@ -43,14 +44,18 @@ for row in get_data():
 		mailbody_imput = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":nn"]')))
 		mailbody_imput.click()
 		rand_body_text = get_body_text()
-		#pyperclip.copy('{}'.format(rand_body_text))
-		pyperclip.copy(str(rand_body_text))
 		mailbody_imput.send_keys(Keys.UP * 2)
 		mailbody_imput.send_keys(rand_body_text)
-		# mailbody_imput.send_keys(Keys.CONTROL + "v")
+		mailbody_imput.send_keys(Keys.CONTROL + "v")
 		mail_send_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":p0"]')))
 		mail_send_button.click()
-		#print (cllink)
 		time.sleep(3)
-	time.sleep(5)
-	driver.quit()
+
+	time.sleep(2)
+	pyautogui.hotkey('ctrl', 'shift', 'delete') # press the control shift del key
+	time.sleep(2)
+	pyautogui.press('enter')  # press the Enter key
+	time.sleep(3)
+
+	# close the webdriver instance
+	# driver.quit()
