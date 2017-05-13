@@ -40,7 +40,15 @@ for row in get_data():
 		time.sleep(5)
 		replay_link = rand_re_link()
 		driver.get("{}".format(replay_link))
-		wait = WebDriverWait(driver, 120)
+		try:
+			gmail_user_id_field = wait.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="identifierId"]')))
+			login_gmail(driver, email, password, remail, cell_value)
+			if login_gmail == False:
+				driver.quit()
+				continue
+		except:
+			pass
+		wait = WebDriverWait(driver, 180)
 		mailbody_imput = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":nn"]')))
 		mailbody_imput.click()
 		rand_body_text = get_body_text()
