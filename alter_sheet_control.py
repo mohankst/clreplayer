@@ -35,5 +35,7 @@ def alter_err_report(cell_value, message):
 	try:
 		emails_sheet.update_cell(cell_value, 5, message)
 	except:
+		failed_time += 1
+		print failed_time
 		time.sleep(5)
 		err_report(cell_value, message)
