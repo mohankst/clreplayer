@@ -3,7 +3,7 @@ from datetime import datetime, date
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, date
 
-from alter_sheet_control import alter_update_report_cell, alter_err_report
+from alter_sheet_control import alter_update_report_cell, alter_err_report, alter_rand_re_link
 
 today = "{:%d.%m.%Y}".format(datetime.now())
 
@@ -60,7 +60,10 @@ def err_report(cell_value, message):
 #geeting replay links randomly from google sheet
 def rand_re_link():
 	links = []
-	data = replay_links_sheet.get_all_records()
+	try:
+		data = replay_links_sheet.get_all_records()
+	except:
+		alter_rand_re_link()
 	for row in data:
 		replay_link = row['links']
 		links.append(replay_link)
