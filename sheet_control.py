@@ -44,6 +44,10 @@ def update_report_cell(cell_value):
 	try:
 		emails_sheet.update_cell(cell_value, 4, today)
 	except:
+		time.sleep(5)
+		scope = ['https://spreadsheets.google.com/feeds']
+		creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+		client = gspread.authorize(creds)
 		emails_sheet = client.open("clreplay").sheet1
 	finally:
 		emails_sheet.update_cell(cell_value, 4, today)
@@ -53,6 +57,10 @@ def err_report(cell_value, message):
 	try:
 		emails_sheet.update_cell(cell_value, 5, message)
 	except:
+		time.sleep(5)
+		scope = ['https://spreadsheets.google.com/feeds']
+		creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+		client = gspread.authorize(creds)
 		emails_sheet = client.open("clreplay").sheet1
 	finally:
 		emails_sheet.update_cell(cell_value, 5, message)
