@@ -45,17 +45,3 @@ def alter_err_report(cell_value, message):
 		failed_time += 1
 		print (failed_time)
 		time.sleep(5)
-
-
-#geeting replay links randomly from google sheet
-def alter_rand_re_link():
-	# use creds to create a client to interact with the Google Drive API
-	scope = ['https://spreadsheets.google.com/feeds']
-	creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-	client = gspread.authorize(creds)
-
-	# Find a workbook by name and open the first sheet
-	replay_links_sheet = client.open("replay_links").sheet1
-	data = replay_links_sheet.get_all_records()
-
-	return data
