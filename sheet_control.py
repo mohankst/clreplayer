@@ -3,7 +3,7 @@ from datetime import datetime, date
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, date
 
-from alter_sheet_control import alter_update_report_cell, alter_err_report, alter_rand_re_link
+from alter_sheet_control import alter_update_report_cell, alter_err_report
 
 today = "{:%d.%m.%Y}".format(datetime.now())
 
@@ -63,7 +63,11 @@ def rand_re_link():
 	try:
 		data = replay_links_sheet.get_all_records()
 	except:
-		alter_rand_re_link()
+		scope = ['https://spreadsheets.google.com/feeds']
+		creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+		client = gspread.authorize(creds)
+		replay_links_sheet = client.open("replay_links").sheet1
+		data = replay_links_sheet.get_all_records()
 	for row in data:
 		replay_link = row['links']
 		links.append(replay_link)
