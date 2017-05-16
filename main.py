@@ -40,7 +40,7 @@ for row in get_data():
 	for _ in range(25):
 		time.sleep(5)
 		replay_link = random.choice(links)
-		driver.get(replay_link)
+		driver.get("{}".format(replay_link))
 		wait = WebDriverWait(driver, 120)
 		mailbody_imput = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":nn"]')))
 		mailbody_imput.click()
