@@ -28,8 +28,8 @@ for row in get_data():
 	if reporting_date == today:
 		continue
 	#defining webdriver instance
-	driver = webdriver.Chrome()
-	#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
+	driver = webdriver.Chrome(executable_path='chromedriver.exe')
+	#driver = webdriver.Firefox(executable_path='geckodriver.exe')
 
 	login_gmail(driver, email, password, remail, cell_value)
 	if login_gmail == False:
