@@ -12,13 +12,11 @@ from mail_login import login_gmail
 
 #geeting todays date as string
 today = "{:%d.%m.%Y}".format(datetime.now())
-
 #defining the cell to marking for job done
 cell_value = 1
 
-#defining webdriver instance
-driver = webdriver.Chrome()
-#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
+links = rand_re_link()
+body_text = get_body_text()
 
 for row in get_data():
 	email = row['Email']
@@ -29,6 +27,9 @@ for row in get_data():
 
 	if reporting_date == today:
 		continue
+	#defining webdriver instance
+	driver = webdriver.Chrome()
+	#driver = webdriver.Firefox(executable_path='G:\cl_reolay\geckodriver.exe')
 
 	login_gmail(driver, email, password, remail, cell_value)
 	if login_gmail == False:
@@ -38,12 +39,12 @@ for row in get_data():
 	# sending email for 25 times
 	for _ in range(25):
 		time.sleep(5)
-		replay_link = rand_re_link()
+		replay_link = random.choice(links)
 		driver.get("{}".format(replay_link))
 		wait = WebDriverWait(driver, 120)
 		mailbody_imput = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id=":nn"]')))
 		mailbody_imput.click()
-		rand_body_text = get_body_text()
+		rand_body_text = random.choice(body_text)
 		mailbody_imput.send_keys(Keys.UP * 2)
 		mailbody_imput.send_keys(rand_body_text)
 		mailbody_imput.send_keys(Keys.CONTROL + "v")
@@ -51,11 +52,6 @@ for row in get_data():
 		mail_send_button.click()
 		time.sleep(3)
 
-	time.sleep(2)
-	pyautogui.hotkey('ctrl', 'shift', 'delete') # press the control shift del key
-	time.sleep(2)
-	pyautogui.press('enter')  # press the Enter key
-	time.sleep(3)
 
 	# close the webdriver instance
-	# driver.quit()
+	driver.quit()

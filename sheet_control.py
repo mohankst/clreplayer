@@ -37,8 +37,7 @@ def get_body_text():
 		bt = row['texts']
 		amb.append(bt)
 	random.shuffle(amb)
-	body_text = random.choice(amb)
-	return body_text
+	return amb
 
 
 # write current date to google sheet
@@ -72,6 +71,5 @@ def rand_re_link():
 		replay_link = row['links']
 		links.append(replay_link)
 	random.shuffle(links)
-	re_link = random.choice(links)
-	return re_link
+	return links
 
