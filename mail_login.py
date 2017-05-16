@@ -11,8 +11,8 @@ from sheet_control import update_report_cell, rand_re_link
 
 def login_gmail(driver, email, password, remail, cell_value):
 	mail_problem = False
-	replay_link = rand_re_link()
-	driver.get("{}".format(replay_link))	
+	replay_link = random.choice(rand_re_link())
+	driver.get("{}".format(replay_link))
 	# driver.get("https://mail.google.com")
 	wait = WebDriverWait(driver, 10)
 	try:
