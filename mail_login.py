@@ -7,12 +7,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from sheet_control import update_report_cell, rand_re_link
 
 
-
+replay_link_list = rand_re_link()
+replay_link = random.choice(replay_link_list)
 
 def login_gmail(driver, email, password, remail, cell_value):
 	mail_problem = False
-	replay_link = random.choice(rand_re_link())
-	driver.get("{}".format(replay_link))
+	driver.get("{}".format(replay_link))	
 	# driver.get("https://mail.google.com")
 	wait = WebDriverWait(driver, 10)
 	try:
